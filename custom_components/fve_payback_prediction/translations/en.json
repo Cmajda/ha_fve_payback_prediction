@@ -1,0 +1,18 @@
+{
+	"state": {
+		"sensor": {
+			"fve_denni_uspora": {
+				"name": "Daily Savings"
+			},
+			"fve_mesicni_uspora": {
+				"name": "Monthly Savings"
+			},
+			"fve_rocni_uspora": {
+				"name": "Yearly Savings"
+			},
+			"fve_odhadovana_navratnost": {
+				"name": "Estimated Payback"
+			}
+		}
+	}
+}

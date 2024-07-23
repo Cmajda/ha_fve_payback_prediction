@@ -1,0 +1,11 @@
+{
+	"domain": "ha_fve_payback_prediction",
+	"name": "FVE payback prediction",
+	"codeowners": [ "@Cmajda" ],
+	"dependencies": [],
+	"documentation": "https://github.com/Cmajda/ha_fve_payback_prediction/blob/main/README.md",
+	"issue_tracker": "https://github.com/Cmajda/ha_fve_payback_prediction/issues",
+	"integration_type": "helper",
+	"version": "0.0.1",
+	"requirements": []
+}
