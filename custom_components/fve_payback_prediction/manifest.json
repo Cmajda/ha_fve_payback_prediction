@@ -1,5 +1,5 @@
 {
-	"domain": "ha_fve_payback_prediction",
+	"domain": "fve_payback_prediction",
 	"name": "FVE payback prediction",
 	"codeowners": [ "@Cmajda" ],
 	"dependencies": [],
