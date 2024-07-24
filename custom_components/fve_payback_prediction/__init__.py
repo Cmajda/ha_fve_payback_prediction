@@ -74,8 +74,8 @@ class FvePaybackCoordinator(DataUpdateCoordinator):
             solar_energy_state = self.hass.states.get(self.solar_energy_sensor)
             price_per_kwh_state = self.hass.states.get(self.price_per_kwh_sensor)
 
-            _LOGGER.debug(f"Fetching data: {self.solar_energy_sensor} state: {solar_energy_state}")
-            _LOGGER.debug(f"Fetching data: {self.price_per_kwh_sensor} state: {price_per_kwh_state}")
+            _LOGGER.debug(f"Fetching data: solar_energy_sensor={self.solar_energy_sensor}, state={solar_energy_state}")
+            _LOGGER.debug(f"Fetching data: price_per_kwh_sensor={self.price_per_kwh_sensor}, state={price_per_kwh_state}")
 
             if solar_energy_state is None:
                 _LOGGER.error(f"Senzor '{self.solar_energy_sensor}' chybí.")
