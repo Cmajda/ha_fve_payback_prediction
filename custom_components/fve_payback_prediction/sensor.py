@@ -9,9 +9,6 @@ from homeassistant.util import Throttle
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-import requests
-from lxml import html, etree
-
 MIN_TIME_BETWEEN_SCANS = timedelta(seconds=3600)
 _LOGGER = logging.getLogger(__name__)
 
@@ -77,14 +74,17 @@ class FveDailySavingsSensor(SensorEntity):
         solar_energy_state = self.hass.states.get(self.solar_energy_sensor_today)
         price_per_kwh_state = self.hass.states.get(self.price_per_kwh_sensor)
 
+        _LOGGER.debug(f"Fetching sensor values: {self.solar_energy_sensor_today} = {solar_energy_state}, {self.price_per_kwh_sensor} = {price_per_kwh_state}")
+
         if solar_energy_state and price_per_kwh_state:
             try:
                 solar_energy = float(solar_energy_state.state)
                 price_per_kwh = float(price_per_kwh_state.state)
                 self._state = solar_energy * price_per_kwh
-            except ValueError:
-                _LOGGER.error("Error converting sensor values to float.")
+                _LOGGER.debug(f"Calculated state: {self._state} (solar_energy: {solar_energy}, price_per_kwh: {price_per_kwh})")
+            except ValueError as e:
+                _LOGGER.error(f"Error converting sensor values to float: {e}")
                 self._state = None
         else:
-            _LOGGER.error("One or both sensors are unavailable.")
+            _LOGGER.error(f"One or both sensors are unavailable: {self.solar_energy_sensor_today} = {solar_energy_state}, {self.price_per_kwh_sensor} = {price_per_kwh_state}")
             self._state = None
