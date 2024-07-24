@@ -22,8 +22,8 @@ PLATFORM_SCHEMA = vol.Schema(
 
 async def async_setup_entry(hass: HomeAssistant, entry):
     """Set up the fve_payback_prediction component from a config entry."""
-    _LOGGER.debug("Setting up fve_payback_prediction component.")
-    
+    _LOGGER.debug("Setting up fve_payback_prediction component from config entry.")
+
     # Extract configuration data
     platform_config = entry.data
     _LOGGER.debug(f"Platform config: {platform_config}")
@@ -33,7 +33,7 @@ async def async_setup_entry(hass: HomeAssistant, entry):
     price_per_kwh_sensor = platform_config.get(CONF_PRICE_PER_KWH_SENSOR)
 
     if not solar_energy_sensor or not price_per_kwh_sensor:
-        _LOGGER.error("Senzory 'solar_energy_sensor' a 'price_per_kwh_sensor' musí být definovány v configuration.yaml")
+        _LOGGER.error("Senzory 'solar_energy_sensor' a 'price_per_kwh_sensor' musí být definovány.")
         return False
 
     _LOGGER.debug(f"Solar energy sensor: {solar_energy_sensor}")
