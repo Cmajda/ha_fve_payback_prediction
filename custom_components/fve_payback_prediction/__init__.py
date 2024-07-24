@@ -22,7 +22,6 @@ PLATFORM_SCHEMA = vol.Schema(
 
 async def async_setup_entry(hass: HomeAssistant, entry):
     """Set up the fve_payback_prediction component from a config entry."""
-    # Extract configuration data
     platform_config = entry.data
 
     # Get sensor names from configuration

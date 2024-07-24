@@ -6,7 +6,7 @@ _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = "fve_payback_prediction"
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up the FVE sensor."""
     coordinator = hass.data.get(DOMAIN)
     if coordinator is None:
