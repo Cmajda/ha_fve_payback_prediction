@@ -1,1 +1,0 @@
-"""The FVE Sensors integration."""
