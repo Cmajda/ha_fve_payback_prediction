@@ -22,7 +22,11 @@ PLATFORM_SCHEMA = vol.Schema(
 
 async def async_setup_entry(hass: HomeAssistant, entry):
     """Set up the fve_payback_prediction component from a config entry."""
+    _LOGGER.debug("Setting up fve_payback_prediction component.")
+    
+    # Extract configuration data
     platform_config = entry.data
+    _LOGGER.debug(f"Platform config: {platform_config}")
 
     # Get sensor names from configuration
     solar_energy_sensor = platform_config.get(CONF_SOLAR_ENERGY_SENSOR)
@@ -32,15 +36,20 @@ async def async_setup_entry(hass: HomeAssistant, entry):
         _LOGGER.error("Senzory 'solar_energy_sensor' a 'price_per_kwh_sensor' musí být definovány v configuration.yaml")
         return False
 
+    _LOGGER.debug(f"Solar energy sensor: {solar_energy_sensor}")
+    _LOGGER.debug(f"Price per kWh sensor: {price_per_kwh_sensor}")
+
     # Initialize the coordinator
     coordinator = FvePaybackCoordinator(hass, solar_energy_sensor, price_per_kwh_sensor)
     await coordinator.async_config_entry_first_refresh()
 
     # Store coordinator in hass data
     hass.data[DOMAIN] = coordinator
+    _LOGGER.debug("Coordinator set up and stored in hass data.")
 
     # Set up the platform
     await hass.config_entries.async_forward_entry_setup(entry, 'sensor')
+    _LOGGER.debug("Sensor platform setup complete.")
     return True
 
 class FvePaybackCoordinator(DataUpdateCoordinator):
@@ -65,6 +74,9 @@ class FvePaybackCoordinator(DataUpdateCoordinator):
             solar_energy_state = self.hass.states.get(self.solar_energy_sensor)
             price_per_kwh_state = self.hass.states.get(self.price_per_kwh_sensor)
 
+            _LOGGER.debug(f"Fetching data: {self.solar_energy_sensor} state: {solar_energy_state}")
+            _LOGGER.debug(f"Fetching data: {self.price_per_kwh_sensor} state: {price_per_kwh_state}")
+
             if solar_energy_state is None:
                 _LOGGER.error(f"Senzor '{self.solar_energy_sensor}' chybí.")
                 self.solar_energy = 0.0
@@ -87,9 +99,11 @@ class FvePaybackCoordinator(DataUpdateCoordinator):
                 else:
                     self.price_per_kwh = float(price_per_kwh)
 
+            _LOGGER.debug(f"Data updated: solar_energy={self.solar_energy}, price_per_kwh={self.price_per_kwh}")
             return {
                 "solar_energy": self.solar_energy,
                 "price_per_kwh": self.price_per_kwh
             }
         except Exception as e:
+            _LOGGER.error(f"Error in _async_update_data: {e}")
             raise UpdateFailed(f"Error communicating with API: {e}")
